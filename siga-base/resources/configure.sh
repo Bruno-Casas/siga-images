@@ -12,22 +12,23 @@ SHA_256_SUN=(
     "323b535003a2b69e5faa306cdb3744cb6879ae402512b0ee8d260a2cb87fc30c"
 )
 
+WORK_DIR="${SIGA_DIR}/tmp"
+mkdir -p $WORK_DIR
+cd $WORK_DIR
+
 echo "Downloading resources..."
 for i in "${!RESOURCES[@]}"; do
     resource=${RESOURCES[$i]}
     file="$(cut -d' ' -f2 <<<"$resource")"
 
     attempts=0
-    pwd
-    ls -la
-    while [  $attempts -lt 2 ]; do
+    while [ $attempts -lt 2 ]; do
         echo "Downloading $file:"
         curl --connect-timeout 10 -k --progress-bar $BASE_URL$file -o $file 2>&1
 
         echo -n "Health check for $file: "
         hash="$(sha256sum $file | cut -d ' ' -f 1)"
-        if [ $hash = ${SHA_256_SUN[$i]} ]
-        then
+        if [ $hash = ${SHA_256_SUN[$i]} ]; then
             echo "SUCCESS"
             attempts=0
             break
@@ -38,9 +39,8 @@ for i in "${!RESOURCES[@]}"; do
     done
 done
 
-add-user.sh admin Password@123
-
-jboss-cli.sh <<EOF
+echo -n "Performing initial setups on Wildfly. "
+jboss-cli.sh >/dev/null 2>&1 <<EOF
 embed-server --std-out=echo
 batch
 
@@ -54,7 +54,19 @@ stop-embedded-server
 exit
 EOF
 
+if [ $? -eq 0 ]; then
+    echo "SUCCESS"
+else
+    echo "FAIL"
+fi
+
+echo -n "extracting the ckeditor: "
 unzip -q ckeditor_4.5.7_full.zip -d ${JBOSS_HOME}/welcome-content/ckeditor/
 
-rm -r "$HOME/siga/tmp"
-mkdir -p "$HOME/siga/tmp"
+if [ $? -eq 0 ]; then
+    echo "SUCCESS"
+else
+    echo "FAIL"
+fi
+
+rm -rf $WORK_DIR/*

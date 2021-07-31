@@ -1,7 +1,8 @@
 FROM brunocasas/wildfly:15.0.1.Final-alpine
 
 USER root
-RUN apk add --no-cache inotify-tools
+RUN apk add --no-cache inotify-tools tzdata\
+    && cp /usr/share/zoneinfo/Brazil/West /etc/localtime
 USER jboss
 
 ENV SIGA_DIR "/opt/jboss/siga"
