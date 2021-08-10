@@ -29,10 +29,10 @@ while [  $attempts -lt 2 ]; do
 done
 
 tar xf $FILE
-mv wildfly-$WILDFLY_VERSION $JBOSS_HOME
+mv wildfly-$WILDFLY_VERSION $WILDFLY_HOME
 rm $FILE
 
-chown -R jboss:0 ${JBOSS_HOME}
-chmod -R g+rw ${JBOSS_HOME}
+chown -R jboss:0 ${WILDFLY_HOME}
+chmod -R g+rw ${WILDFLY_HOME}
 
 rm $0

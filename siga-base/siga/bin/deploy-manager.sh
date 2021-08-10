@@ -1,7 +1,5 @@
 #!/bin/sh
 
-set -e
-
 mkdir -p $SIGA_DIR/tmp
 
 check_deploy() {
@@ -15,13 +13,17 @@ check_deploy() {
     fi
 }
 
+if [ -f "$SIGA_DIR/tmp/*.hash" ]; then
+	rm $SIGA_DIR/tmp/*.hash
+fi
+
 for file in $SIGA_DIR/deployments/*.war; do
     echo $file
     [ -f "$file" ] || break
     check_deploy $file
 done
 
-if [ ! -z "$DEBUG_MODE" ]; then
+if [ ! -z "$WATCH_DEPLOYS" ]; then
     inotifywait \
         --event close_write \
         --event moved_to \

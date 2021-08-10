@@ -77,7 +77,6 @@ generated=""
 PROPERTIES_FILE="$SIGA_DIR/default.properties"
 
 echo -e 'embed-server --std-out=echo\n' >$SIGA_DIR/commands.cli
-echo "$PROPERTIES_FILE"
 
 if [ -r "$PROPERTIES_FILE" ]
 then

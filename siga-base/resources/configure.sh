@@ -12,8 +12,11 @@ SHA_256_SUN=(
     "323b535003a2b69e5faa306cdb3744cb6879ae402512b0ee8d260a2cb87fc30c"
 )
 
+mkdir -p $SIGA_DIR/logs
+mkdir -p $SIGA_DIR/configs
+mkdir -p $SIGA_DIR/deployments
+
 WORK_DIR="${SIGA_DIR}/tmp"
-mkdir -p $WORK_DIR
 cd $WORK_DIR
 
 echo "Downloading resources..."
@@ -40,11 +43,11 @@ for i in "${!RESOURCES[@]}"; do
 done
 
 echo -n "Performing initial setups on Wildfly. "
-jboss-cli.sh >/dev/null 2>&1 <<EOF
+jboss-cli.sh >/dev/null <<EOF
 embed-server --std-out=echo
 batch
 
-module add --name=com.mysql --resources=siga/tmp/mysql-connector-java-8.0.24.jar --dependencies=javax.api,javax.transaction.api
+module add --name=com.mysql --resources=$SIGA_DIR/tmp/mysql-connector-java-8.0.24.jar --dependencies=javax.api,javax.transaction.api
 /subsystem=datasources/jdbc-driver=mysql:add(driver-name=mysql,driver-module-name=com.mysql,driver-class-name=com.mysql.cj.jdbc.Driver)
 /subsystem=security/security-domain=sp/:add(cache-type=default)
 /subsystem=security/security-domain=sp/authentication=classic:add(login-modules=[{code=org.picketlink.identity.federation.bindings.jboss.auth.SAML2LoginModule, flag=>required}])
@@ -60,8 +63,17 @@ else
     echo "FAIL"
 fi
 
+echo -n "Creating wildfly management user. "
+add-user.sh admin Password@123 >/dev/null
+
+if [ $? -eq 0 ]; then
+    echo "SUCCESS"
+else
+    echo "FAIL"
+fi
+
 echo -n "extracting the ckeditor: "
-unzip -q ckeditor_4.5.7_full.zip -d ${JBOSS_HOME}/welcome-content/ckeditor/
+unzip -q ckeditor_4.5.7_full.zip -d $WILDFLY_HOME/welcome-content/ckeditor/
 
 if [ $? -eq 0 ]; then
     echo "SUCCESS"
