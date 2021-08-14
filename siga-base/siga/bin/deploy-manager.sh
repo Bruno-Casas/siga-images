@@ -18,7 +18,6 @@ if [ -f "$SIGA_DIR/tmp/*.hash" ]; then
 fi
 
 for file in $SIGA_DIR/deployments/*.war; do
-    echo $file
     [ -f "$file" ] || break
     check_deploy $file
 done

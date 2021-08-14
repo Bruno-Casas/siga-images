@@ -16,11 +16,11 @@ if [ -z "$WILDFLY_CONF" ]; then
 	WILDFLY_CONF="$SIGA_DIR/bin/$WILDFLY_NAME.conf"
 fi
 
+[ -r "$WILDFLY_CONF" ] && . "${WILDFLY_CONF}"
+
 if [ -z "$DEBUG" ]; then
 	JAVA_OPTS="$JAVA_OPTS -agentlib:jdwp=transport=dt_socket,address=40143,server=y,suspend=n"
 fi
-
-[ -r "$WILDFLY_CONF" ] && . "${WILDFLY_CONF}"
 
 if [ -z "$WILDFLY_MODE" ]; then
 	WILDFLY_MODE=standalone
@@ -83,6 +83,7 @@ fi
 
 bash startup.sh
 
+export JAVA_OPTS
 command=""
 if [ "$WILDFLY_MODE" = "standalone" ]; then
 	command="standalone.sh -c $WILDFLY_CONFIG $WILDFLY_OPTS"
