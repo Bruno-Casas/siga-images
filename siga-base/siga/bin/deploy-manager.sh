@@ -31,7 +31,6 @@ if [ ! -z "$WATCH_DEPLOYS" ]; then
         --monitor \
         $SIGA_DIR/deployments 2>/dev/null |
         while read file; do
-            echo $file 
             check_deploy $file
         done
 fi

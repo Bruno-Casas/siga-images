@@ -18,10 +18,6 @@ fi
 
 [ -r "$WILDFLY_CONF" ] && . "${WILDFLY_CONF}"
 
-if [ -z "$DEBUG" ]; then
-	JAVA_OPTS="$JAVA_OPTS -agentlib:jdwp=transport=dt_socket,address=40143,server=y,suspend=n"
-fi
-
 if [ -z "$WILDFLY_MODE" ]; then
 	WILDFLY_MODE=standalone
 fi
@@ -105,6 +101,7 @@ do
 	sleep 1
 done
 
+sleep 2
 if [ -z "$DISABLE_AUTO_DEPLOY" ]; then
 	bash deploy-manager.sh &
 fi
