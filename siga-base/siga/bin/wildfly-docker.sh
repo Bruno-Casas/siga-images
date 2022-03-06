@@ -55,6 +55,10 @@ runStartupScritps() {
 			*.sh)     echo "$0: running $f"; . "$f" ;;
 			*.jar)    echo "$0: running $f"; java -jar $f ;;
 		esac
+
+		if [ $? -eq 1 ] ; then
+			exit 1
+		fi
 	echo
 	done
 }
