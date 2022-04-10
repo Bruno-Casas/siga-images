@@ -44,7 +44,7 @@ else
 fi
 
 echo -n "extracting the ckeditor: "
-unzip -q ckeditor_4.5.7_full.zip -d $WILDFLY_HOME/welcome-content/ckeditor/
+unzip -q ckeditor_4.15.0_full.zip -d $WILDFLY_HOME/welcome-content/ckeditor/
 
 if [ $? -eq 0 ]; then
     echo "SUCCESS"
