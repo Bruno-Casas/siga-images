@@ -74,7 +74,7 @@ EOF
 }
 
 generated=""
-PROPERTIES_FILE="$SIGA_DIR/default.properties"
+PROPERTIES_FILE="$SIGA_DIR/props/default.properties"
 
 echo -e 'embed-server --std-out=echo\n' >$SIGA_DIR/commands.cli
 

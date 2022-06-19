@@ -8,8 +8,6 @@
 # config: /siga/bin/siga-jboss-eap.conf
 #
 
-set -e
-
 if [ -z "$WILDFLY_NAME" ]; then
   WILDFLY_NAME='siga-wildfly'
 fi
@@ -84,6 +82,9 @@ if [ -f "$WILDFLY_BASE_DIR/log/server.log" ]; then
 fi
 
 bash startup.sh
+if [ $? -eq 1 ] ; then
+	exit 1
+fi
 
 export JAVA_OPTS
 command=""
@@ -92,6 +93,7 @@ if [ "$WILDFLY_MODE" = "standalone" ]; then
 else
 	command="standalone.sh --domain-config=$WILDFLY_DOMAIN_CONFIG --host-config=$WILDFLY_HOST_CONFIG $WILDFLY_OPTS"
 fi
+
 $command &
 PID=$!
 
@@ -101,7 +103,7 @@ trap "kill -TERM $PID" SIGTERM
 while true
 do	
 	grep 'WFLYUT0006:' $WILDFLY_BASE_DIR/log/server.log > /dev/null
-	if [ $? -eq 0 ] ; then
+	if [ $? -eq 0 ]; then
 		break
 	fi
 	sleep 1
