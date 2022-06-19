@@ -8,6 +8,8 @@
 # config: /siga/bin/siga-jboss-eap.conf
 #
 
+set -e
+
 if [ -z "$WILDFLY_NAME" ]; then
   WILDFLY_NAME='siga-wildfly'
 fi
