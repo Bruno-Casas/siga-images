@@ -1,4 +1,4 @@
-FROM brunocasas/wildfly:15.0.1.Final-alpine
+FROM pmna/wildfly:15.0.1.Final-alpine
 
 USER root
 RUN apk add --no-cache inotify-tools tzdata\
@@ -20,3 +20,4 @@ CMD [ "wildfly-docker.sh" ]
 
 EXPOSE 8080
 EXPOSE 9990
+EXPOSE 20200
