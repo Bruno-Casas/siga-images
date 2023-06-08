@@ -20,6 +20,8 @@ module add --name=com.mysql --resources=$SIGA_DIR/tmp/mysql-connector-java-8.0.2
 /subsystem=security/security-domain=sp/authentication=classic:add(login-modules=[{code=org.picketlink.identity.federation.bindings.jboss.auth.SAML2LoginModule, flag=>required}])
 /subsystem=undertow/server=default-server/http-listener=default/:write-attribute(name=max-post-size,value=117440512)
 /subsystem=undertow/server=default-server/https-listener=https/:write-attribute(name=max-post-size,value=117440512)
+/subsystem=sar/:remove
+/subsystem=jmx/:remove
 
 run-batch
 stop-embedded-server
