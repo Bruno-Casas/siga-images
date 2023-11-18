@@ -1,4 +1,4 @@
-FROM pmna/wildfly:15.0.1.Final-alpine
+FROM pmna/wildfly:26.1.3.Final-alpine
 
 USER root
 RUN apk add --no-cache inotify-tools tzdata\
