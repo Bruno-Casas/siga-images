@@ -19,7 +19,6 @@ module add --name=com.mysql --resources=$SIGA_DIR/tmp/mysql-connector-j-8.2.0.ja
 /subsystem=undertow/server=default-server/http-listener=default/:write-attribute(name=max-post-size,value=117440512)
 /subsystem=undertow/server=default-server/https-listener=https/:write-attribute(name=max-post-size,value=117440512)
 /subsystem=sar/:remove
-/subsystem=jmx/:remove
 
 run-batch
 stop-embedded-server
