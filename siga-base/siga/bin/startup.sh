@@ -102,8 +102,8 @@ then
 stop-embedded-server
 exit
 EOF
-
-jboss-cli.sh --file=$SIGA_DIR/commands.cli > /dev/null
+    echo "Atualizando configurações do WildFLy"
+    jboss-cli.sh --file=$SIGA_DIR/commands.cli
 else
     echo '' >$SIGA_DIR/commands.cli
 fi
